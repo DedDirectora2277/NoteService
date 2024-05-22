@@ -25,9 +25,9 @@ Page {
                     id: backButton
                     objectName: "backButton"
                     icon.source: "image://theme/icon-m-back"
-
-
                     anchors.left: parent.left
+
+                    onClicked: pageStack.push(Qt.resolvedUrl("MainPage.qml"))
                 },
 
                 Rectangle{
