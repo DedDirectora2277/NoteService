@@ -4,7 +4,6 @@ import Sailfish.Silica 1.0
 Page {
     objectName: "mainPage"
     allowedOrientations: Orientation.All
-    backgroundColor: "#0A0A21"
 
     Column {
         width: parent.width
@@ -27,11 +26,9 @@ Page {
         Rectangle {
             id: note1
             width: parent.width - 64
-            color: "#0D1724"
-            height: 120
+            height: Theme.itemSizeLarge
             anchors.horizontalCenter: parent.horizontalCenter
-            border.color: '#3d454f'
-            radius: 12
+            radius: Theme.paddingSmall
 
             Column {
                 anchors.centerIn: parent
@@ -42,7 +39,15 @@ Page {
                 Text {
                     id: title1
                     text: qsTr("Важная информация о Аврора")
-                    color: 'white'
+                }
+
+                Text {
+                    id: time1
+                    width: parent.width
+                    text: qsTr("10:46")
+                    font.pointSize: Theme.fontSizeTinyBase
+                    horizontalAlignment: Text.AlignRight
+                    color: Theme.darkSecondaryColor
                 }
             }
         }
@@ -50,11 +55,9 @@ Page {
         Rectangle {
             id: note2
             width: parent.width - 64
-            color: "#0D1724"
-            height: 120
+            height: Theme.itemSizeLarge
             anchors.horizontalCenter: parent.horizontalCenter
-            border.color: '#3d454f'
-            radius: 12
+            radius: Theme.paddingSmall
 
             Column {
                 anchors.centerIn: parent
@@ -65,11 +68,65 @@ Page {
                 Text {
                     id: title2
                     text: qsTr("Важная информация о Аврора")
-                    color: 'white'
+                }
+
+                Text {
+                    id: time2
+                    width: parent.width
+                    text: qsTr("18.05.2024")
+                    font.pointSize: Theme.fontSizeTinyBase
+                    horizontalAlignment: Text.AlignRight
+                    color: Theme.darkSecondaryColor
                 }
             }
         }
     }
 
+    Item {
+        property real basePosX: (createNoteButton.width / 2) - (createNoteButtonIcon.width / 2)
+        property real basePosY: (createNoteButton.height / 2) - (createNoteButtonIcon.height / 2)
+        property real currentPosX: (createNoteButton.width / 2) - (createNoteButtonIcon.width / 2)
+        property real currentPosY: (createNoteButton.height / 2) - (createNoteButtonIcon.height / 2)
 
+        id: createNoteButton
+        x: parent.width - 126
+        y: parent.height - 126
+
+        Rectangle {
+            id: createNoteButtonIcon
+            x: basePosX
+            y: basePosY
+            width: Theme.itemSizeSmall
+            height: Theme.itemSizeSmall
+            radius: width * 0.5
+            antialiasing: true
+            smooth: true
+        }
+
+        Rectangle {
+            id: createNoteButtonIconBar1
+            anchors.centerIn: createNoteButtonIcon
+            width: Theme.iconSizeExtraSmall
+            height: 4
+            antialiasing: true
+            color: 'black'
+        }
+
+        Rectangle {
+            id: createNoteButtonIconBar2
+            anchors.centerIn: createNoteButtonIcon
+            width: Theme.iconSizeExtraSmall
+            height: 4
+            antialiasing: true
+            rotation: 90
+            color: 'black'
+        }
+
+        MouseArea {
+            id: createNoteArea
+            anchors.fill: createNoteButtonIcon
+            onClicked: pageStack.push(Qt.resolvedUrl("NoteEditor.qml"))
+
+        }
+    }
 }
