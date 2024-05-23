@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     application->setApplicationName(QStringLiteral("AuroraNotes"));
 
     qmlRegisterType<NoteList>("Notes", 1, 0, "NoteList");
+    qmlRegisterType<Note>("Notes", 1, 0, "Note");
 
     QScopedPointer<QQuickView> view(Aurora::Application::createView());
     view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/AuroraNotes.qml")));

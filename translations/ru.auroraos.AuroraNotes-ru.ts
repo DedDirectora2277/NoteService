@@ -40,34 +40,46 @@
     </message>
 </context>
 <context>
+    <name>ListElement</name>
+    <message>
+        <location filename="../qml/ListElement.qml" line="42"/>
+        <source>Created: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ListElement.qml" line="46"/>
+        <source>Modified: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="15"/>
+        <location filename="../qml/pages/MainPage.qml" line="22"/>
         <source>Заметки</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="44"/>
-        <location filename="../qml/pages/MainPage.qml" line="67"/>
-        <source>Важная информация о Аврора</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/pages/MainPage.qml" line="39"/>
+        <source></source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>NoteEditor</name>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="91"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="88"/>
         <source>Название заметки</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="127"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="119"/>
         <source>Здесь начинается ваша заметка</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="145"/>
-        <source>Date of creation: 21.12.2024</source>
+        <location filename="../qml/pages/NoteEditor.qml" line="139"/>
+        <source>Created: </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
