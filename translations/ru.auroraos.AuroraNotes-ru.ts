@@ -60,6 +60,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/pages/MainPage.qml" line="124"/>
+        <source>Удалить</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/pages/MainPage.qml" line="39"/>
         <source></source>
         <translation></translation>

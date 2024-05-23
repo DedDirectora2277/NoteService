@@ -60,7 +60,9 @@ Page {
         delegate: ListItem{
             id: clickArea
             property bool isLongPress: false
-            property int pressDuration: 500
+            property int pressDuration: 100
+            property bool contextMenuVisible: false
+
             Label{
                 id: noteTitle
 
@@ -93,7 +95,7 @@ Page {
                 interval: clickArea.pressDuration
                 onTriggered: {
                     clickArea.isLongPress = true
-                    console.log("deleteDialog")
+                    contextMenuVisible = true
                 }
             }
             onPressed: {
@@ -113,6 +115,27 @@ Page {
                     pressTimer.stop()
                 }
             }
+
+            menu: ContextMenu {
+                id: contextMenu
+                active: contextMenuVisible
+
+                MenuItem {
+                    text: qsTr("Удалить")
+                    onClicked: {
+                        noteList.removeNote(index)
+                        contextMenuVisible = false
+                    }
+                }
+
+//                MenuItem {
+//                    text: qsTr("Отмена")
+//                    onClicked: {
+
+//                        contextMenuVisible = false
+//                    }
+//                }
+             }
 
         }
 
