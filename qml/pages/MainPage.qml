@@ -8,6 +8,7 @@ Page {
     allowedOrientations: Orientation.All
 
 
+
     NoteList {
         id: noteList
     }
@@ -19,28 +20,91 @@ Page {
 
         PageHeader {
             objectName: "pageHeader"
-            title: qsTr("Заметки")
             extraContent.children: [
-                IconButton {
-                    objectName: "aboutButton"
-                    icon.source: "image://theme/icon-m-about"
-
-                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-                },
 
                 IconButton{
-                    id: addButton
-                    objectName: "addButton"
+                    id: filterClearButton
+                    objectName: "filterClearButton"
 
-                    icon.source: "image://theme/icon-m-new"
-                    anchors.right: parent.right
+                    icon.source: "image://theme/icon-m-clear"
 
                     onClicked: {
-                        var newNote = noteList.addNote(qsTr(""), qsTr(""), "blue")
-                        var editPage = noteEditorPageComponent.createObject(pageStack, { "note": newNote });
-                        pageStack.push(editPage)
+                        filterTextField.text = ""
+                        noteList.clearFilterColor()
+                        colorFilterIndicator.color =  "transparent"
+                    }
+                },
+
+//                IconButton {
+//                    id: aboutButton
+//                    objectName: "aboutButton"
+//                    icon.source: "image://theme/icon-m-about"
+
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.left: parent.left
+
+//                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+//                },
+
+
+//                IconButton{
+//                    id: filterCancelButton
+//                },
+
+
+                Rectangle{
+                    id: colorFilterIndicator
+
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: colorFilterIndicator.width/2
+                    border{
+                        width: 3
+                        color: Theme.secondaryHighlightColor
                     }
 
+                    color: noteList.filterColor
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            var dialog = pageStack.push("Sailfish.Silica.ColorPickerDialog")
+                            dialog.accepted.connect(function() {
+                                colorFilterIndicator.color = dialog.color
+                                noteList.filterColor = dialog.color
+                            })
+                        }
+                    }
+                },
+
+
+//                IconButton{
+//                    id: addButton
+//                    objectName: "addButton"
+
+//                    icon.source: "image://theme/icon-m-new"
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+
+//                    onClicked: {
+//                        var newNote = noteList.addNote(qsTr(""), qsTr(""), "blue")
+//                        var editPage = noteEditorPageComponent.createObject(pageStack, { "note": newNote });
+//                        pageStack.push(editPage)
+//                    }
+
+//                },
+
+                TextField{
+                    id: filterTextField
+
+                    anchors.left: filterClearButton.right
+                    anchors.bottom: parent.bottom
+                    width: parent.width/3*2
+
+                    placeholderText: qsTr("Фильтр заметок")
+                    onTextChanged: noteList.filterText = text
                 }
 
             ]
@@ -49,11 +113,11 @@ Page {
 
     SilicaListView {
         id: notesList
-        width: parent.width
-        height: parent.height
-        anchors.leftMargin: Theme.horizontalPageMargin
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.top: headerColumn.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: addNoteButton.top
+        //anchors.bottom: parent.bottom
         model: noteList
 
         clip: true
@@ -84,6 +148,11 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
 
                 radius: colorIndicator.width/2
+
+                border{
+                    width: 3
+                    color: Theme.secondaryHighlightColor
+                }
 
                 color: model.color
 
@@ -142,7 +211,23 @@ Page {
         VerticalScrollDecorator{}
    }
 
+    Button{
+        id: addNoteButton
+        objectName: "addNoteButton"
 
+        anchors.bottom: parent.bottom
+        preferredWidth: parent.width
+
+
+        text: qsTr("Добавить заметку")
+
+
+        onClicked: {
+            var newNote = noteList.addNote(qsTr(""), qsTr(""), colorPicker.colors[0])
+            var editPage = noteEditorPageComponent.createObject(pageStack, { "note": newNote });
+            pageStack.push(editPage)
+        }
+    }
 
     Component {
         id: noteEditorPageComponent
@@ -150,6 +235,10 @@ Page {
             id: noteEditorPage
         }
     }
+    ColorPicker {
+            id: colorPicker
+            visible: false
+        }
 }
 
 

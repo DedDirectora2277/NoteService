@@ -1,8 +1,8 @@
 #include "notelist.h"
 
-NoteList::NoteList(QObject *parent) : QAbstractListModel(parent)
+NoteList::NoteList(QObject *parent) : QAbstractListModel(parent), m_filterColor(Qt::transparent)
 {
-
+    m_filterText = "";
 }
 
 Note* NoteList::addNote(const QString &title, const QString &text, const QColor &color)
@@ -24,6 +24,7 @@ Note* NoteList::addNote(const QString &title, const QString &text, const QColor 
     m_notes.append(note);
     endInsertRows();
 
+    applyFilter();
     return note;
 }
 
@@ -34,6 +35,7 @@ void NoteList::removeNote(int index)
         delete m_notes.at(index);
         m_notes.removeAt(index);
         endRemoveRows();
+        applyFilter();
         emit noteRemoved(index);
     }
 }
@@ -51,15 +53,15 @@ void NoteList::updateNote(Note *note)
 int NoteList::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return m_notes.count();
+    return m_filteredNotes.count();
 }
 
 QVariant NoteList::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid() || index.row() >= m_notes.count())
+    if (!index.isValid() || index.row() >= m_filteredNotes.count())
         return QVariant();
 
-    Note *note = m_notes.at(index.row());
+    Note *note = m_filteredNotes.at(index.row());
     switch (role) {
     case TitleRole:
         return note->title();
@@ -88,4 +90,59 @@ QHash<int, QByteArray> NoteList::roleNames() const
     roles[ModificationDateRole] = "modificationDate";
     roles[NoteRole] = "note";
     return roles;
+}
+
+
+QString NoteList::filterText() const
+{
+    return m_filterText;
+}
+
+void NoteList::setFilterText(const QString &filterText)
+{
+    if (m_filterText != filterText) {
+        m_filterText = filterText;
+        emit filterTextChanged();
+        applyFilter();
+    }
+}
+
+QColor NoteList::filterColor() const
+{
+    return m_filterColor;
+}
+
+void NoteList::setFilterColor(const QColor &filterColor)
+{
+    if (m_filterColor != filterColor) {
+        m_filterColor = filterColor;
+        emit filterColorChanged();
+        applyFilter();
+    }
+}
+
+void NoteList::clearFilterColor()
+{
+    m_filterColor = Qt::transparent;
+    emit filterColorChanged();
+    applyFilter();
+}
+
+void NoteList::applyFilter()
+{
+    beginResetModel();
+    m_filteredNotes.clear();
+
+    const QList<Note*>& constNotes = m_notes; // Явное преобразование к const ссылке
+    for (const Note* note : constNotes) {
+        bool matchesText = m_filterText.isEmpty() || note->title().contains(m_filterText, Qt::CaseInsensitive);
+        bool matchesColor = m_filterColor == Qt::transparent || note->color() == m_filterColor;
+
+        if (matchesText && matchesColor) {
+            m_filteredNotes.append(const_cast<Note*>(note));
+        }
+    }
+
+    endResetModel();
+    emit dataChanged(index(0), index(m_filteredNotes.count() - 1));
 }

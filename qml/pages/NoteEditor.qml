@@ -48,6 +48,10 @@ Page {
                     height: Theme.iconSizeMedium
                     anchors.left: backButton.right
                     radius: colorIndicator.width / 2
+                    border{
+                        width: 3
+                        color: Theme.secondaryHighlightColor
+                    }
 
                     MouseArea {
                         anchors.fill: parent
@@ -89,6 +93,8 @@ Page {
             text: note ? note.title : ""
             readOnly: false
             inputMethodHints: Qt.ImhNone
+            EnterKey.iconSource: "image://theme/icon-m-enter-next"
+            EnterKey.onClicked: noteText.forceActiveFocus()
             onTextChanged: if (note) note.title = text
         }
     }

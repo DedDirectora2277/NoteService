@@ -7,7 +7,8 @@
 class NoteList:public QAbstractListModel
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString filterText READ filterText WRITE setFilterText NOTIFY filterTextChanged)
+    Q_PROPERTY(QColor filterColor READ filterColor WRITE setFilterColor NOTIFY filterColorChanged)
 
 public:
     enum NoteRoles {
@@ -25,16 +26,33 @@ public:
     Q_INVOKABLE Note* addNote(const QString &title, const QString &text, const QColor &color);
     Q_INVOKABLE void removeNote(int index);
     Q_INVOKABLE void updateNote(Note* note);
+    Q_INVOKABLE void clearFilterColor();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    QString filterText() const;
+    void setFilterText(const QString &filterText);
+
+    QColor filterColor() const;
+    void setFilterColor(const QColor &filterColor);
+
+
 signals:
     void noteRemoved(int index);
+    void filterTextChanged();
+    void filterColorChanged();
+
 
 private:
     QList<Note*> m_notes;
+    QList<Note*> m_filteredNotes;
+    QString m_filterText;
+    QColor m_filterColor;
+
+    void applyFilter();
+
 };
 
 #endif // NOTELIST_H
