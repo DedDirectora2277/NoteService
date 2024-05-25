@@ -1,6 +1,6 @@
 #include "note.h"
 
-Note::Note(QObject *parent) : QObject(parent)
+Note::Note(QObject *parent) : QObject(parent), m_id(-1)
 {
 
 }
@@ -79,5 +79,7 @@ int Note::id() const
 
 void Note::setId(int id)
 {
-    m_id = id;
+    if (m_id != id) {
+        m_id = id;
+    }
 }

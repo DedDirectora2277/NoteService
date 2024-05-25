@@ -1,14 +1,56 @@
 #include "notelist.h"
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include <QDebug>
+#include <QStandardPaths>
+#include <QDir>
 
-NoteList::NoteList(QObject *parent) : QAbstractListModel(parent), m_filterColor(Qt::transparent)
+NoteList::NoteList(QObject *parent)
+    : QAbstractListModel(parent), m_filterColor(Qt::transparent)
 {
-    m_filterText = "";
+    QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir dir(appDataLocation);
+    if (!dir.exists()) {
+        if (!dir.mkpath(appDataLocation)) {
+            qWarning() << "Error: unable to create directory" << appDataLocation;
+            return;
+        }
+    }
+
+    QString dbPath = appDataLocation + "/notes.db";
+    qDebug() << "Database path:" << dbPath;
+
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbPath);
+    if (!db.open()) {
+        qWarning() << "Error: unable to open database" << db.lastError().text();
+    } else {
+        QSqlQuery query;
+        query.exec("CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, text TEXT, color TEXT, creation_date TEXT, modification_date TEXT)");
+        loadNotes();
+    }
+}
+
+void NoteList::loadNotes() {
+    QSqlQuery query("SELECT id, title, text, color, creation_date, modification_date FROM notes");
+    while (query.next()) {
+        Note *note = new Note(this);
+        note->setId(query.value(0).toInt());
+        note->setTitle(query.value(1).toString());
+        note->setText(query.value(2).toString());
+        note->setColor(QColor(query.value(3).toString()));
+        note->setCreationDate(QDate::fromString(query.value(4).toString(), Qt::ISODate));
+        note->setModificationDate(QDate::fromString(query.value(5).toString(), Qt::ISODate));
+        m_notes.append(note);
+    }
+    applyFilter();
 }
 
 Note* NoteList::addNote(const QString &title, const QString &text, const QColor &color)
 {
     Note *note = new Note(this);
-    note->setId(m_notes.count() + 1);
     note->setTitle(title);
     note->setText(text);
     note->setColor(color);
@@ -24,19 +66,45 @@ Note* NoteList::addNote(const QString &title, const QString &text, const QColor 
     m_notes.append(note);
     endInsertRows();
 
+    saveNoteToDatabase(note);
     applyFilter();
     return note;
 }
 
-void NoteList::removeNote(int index)
-{
-    if (index >= 0 && index < m_notes.count()) {
-        beginRemoveRows(QModelIndex(), index, index);
-        delete m_notes.at(index);
-        m_notes.removeAt(index);
-        endRemoveRows();
-        applyFilter();
-        emit noteRemoved(index);
+void NoteList::saveNoteToDatabase(Note *note) {
+    QSqlQuery query;
+    query.prepare("INSERT INTO notes (title, text, color, creation_date, modification_date) VALUES (?, ?, ?, ?, ?)");
+    query.addBindValue(note->title());
+    query.addBindValue(note->text());
+    query.addBindValue(note->color().name());
+    query.addBindValue(note->creationDate().toString(Qt::ISODate));
+    query.addBindValue(note->modificationDate().toString(Qt::ISODate));
+    if (!query.exec()) {
+        qWarning() << "Error: failed to insert note" << query.lastError().text();
+    } else {
+        note->setId(query.lastInsertId().toInt());
+    }
+}
+
+void NoteList::removeNote(int index) {
+    if (index < 0 || index >= m_notes.size())
+        return;
+
+    Note *note = m_notes.at(index);
+    beginRemoveRows(QModelIndex(), index, index);
+    m_notes.removeAt(index);
+    endRemoveRows();
+
+    removeNoteFromDatabase(note->id());
+    delete note;
+}
+
+void NoteList::removeNoteFromDatabase(int id) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM notes WHERE id = ?");
+    query.addBindValue(id);
+    if (!query.exec()) {
+        qWarning() << "Error: failed to delete note" << query.lastError().text();
     }
 }
 
@@ -46,7 +114,21 @@ void NoteList::updateNote(Note *note)
     if (index >= 0) {
         note->setModificationDate(QDateTime::currentDateTime().date());
         QModelIndex modelIndex = createIndex(index, 0);
+        updateNoteInDatabase(note);
         emit dataChanged(modelIndex, modelIndex, {TitleRole, TextRole, ColorRole, ModificationDateRole});
+    }
+}
+
+void NoteList::updateNoteInDatabase(Note *note) {
+    QSqlQuery query;
+    query.prepare("UPDATE notes SET title = ?, text = ?, color = ?, modification_date = ? WHERE id = ?");
+    query.addBindValue(note->title());
+    query.addBindValue(note->text());
+    query.addBindValue(note->color().name());
+    query.addBindValue(note->modificationDate().toString(Qt::ISODate));
+    query.addBindValue(note->id());
+    if (!query.exec()) {
+        qWarning() << "Error: failed to update note" << query.lastError().text();
     }
 }
 

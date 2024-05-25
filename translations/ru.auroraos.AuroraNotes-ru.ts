@@ -55,17 +55,17 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="111"/>
+        <location filename="../qml/pages/MainPage.qml" line="97"/>
         <source>Фильтр заметок</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="205"/>
+        <location filename="../qml/pages/MainPage.qml" line="191"/>
         <source>Удалить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="234"/>
+        <location filename="../qml/pages/MainPage.qml" line="213"/>
         <source>Добавить заметку</source>
         <translation type="unfinished"></translation>
     </message>

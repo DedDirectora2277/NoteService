@@ -3,6 +3,10 @@
 
 #include <QAbstractListModel>
 #include "note.h"
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
 
 class NoteList:public QAbstractListModel
 {
@@ -37,6 +41,12 @@ public:
 
     QColor filterColor() const;
     void setFilterColor(const QColor &filterColor);
+
+    void loadNotes();
+    void saveNoteToDatabase(Note *note);
+    void removeNoteFromDatabase(int id);
+    void updateNoteInDatabase(Note *note);
+
 
 
 signals:
