@@ -42,17 +42,12 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="81"/>
+        <location filename="../qml/pages/MainPage.qml" line="82"/>
         <source>Фильтр заметок</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="175"/>
-        <source>Удалить</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/pages/MainPage.qml" line="197"/>
+        <location filename="../qml/pages/MainPage.qml" line="110"/>
         <source>Добавить заметку</source>
         <translation type="unfinished"></translation>
     </message>
@@ -77,6 +72,14 @@
     <message>
         <location filename="../qml/pages/NoteEditor.qml" line="130"/>
         <source>Created: </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NoteListView</name>
+    <message>
+        <location filename="../qml/NoteListView.qml" line="83"/>
+        <source>Удалить</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
