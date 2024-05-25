@@ -28,10 +28,13 @@ Page {
 
                     icon.source: "image://theme/icon-m-clear"
 
+                    visible: false
+
                     onClicked: {
                         filterTextField.text = ""
                         noteList.clearFilterColor()
                         colorFilterIndicator.color =  "transparent"
+                        filterClearButton.visible = false
                     }
                 },
 
@@ -74,27 +77,15 @@ Page {
                             dialog.accepted.connect(function() {
                                 colorFilterIndicator.color = dialog.color
                                 noteList.filterColor = dialog.color
+                                filterClearButton.visible = true
                             })
+
                         }
                     }
                 },
 
 
-//                IconButton{
-//                    id: addButton
-//                    objectName: "addButton"
 
-//                    icon.source: "image://theme/icon-m-new"
-//                    anchors.right: parent.right
-//                    anchors.verticalCenter: parent.verticalCenter
-
-//                    onClicked: {
-//                        var newNote = noteList.addNote(qsTr(""), qsTr(""), "blue")
-//                        var editPage = noteEditorPageComponent.createObject(pageStack, { "note": newNote });
-//                        pageStack.push(editPage)
-//                    }
-
-//                },
 
                 TextField{
                     id: filterTextField
@@ -104,7 +95,14 @@ Page {
                     width: parent.width/3*2
 
                     placeholderText: qsTr("Фильтр заметок")
-                    onTextChanged: noteList.filterText = text
+                    onTextChanged: {
+                        noteList.filterText = text
+                        if (filterTextField.text != ""){
+                            filterClearButton.visible = true
+                        } else if(Qt.colorEqual(colorFilterIndicator.color, "transparent")){
+                            filterClearButton.visible = false
+                        }
+                    }
                 }
 
             ]
@@ -197,13 +195,6 @@ Page {
                     }
                 }
 
-//                MenuItem {
-//                    text: qsTr("Отмена")
-//                    onClicked: {
-
-//                        contextMenuVisible = false
-//                    }
-//                }
              }
 
         }
@@ -241,6 +232,31 @@ Page {
         }
 }
 
+
+
+//MenuItem {
+//                    text: qsTr("Отмена")
+//                    onClicked: {
+
+//                        contextMenuVisible = false
+//                    }
+//                }
+
+//                IconButton{
+//                    id: addButton
+//                    objectName: "addButton"
+
+//                    icon.source: "image://theme/icon-m-new"
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+
+//                    onClicked: {
+//                        var newNote = noteList.addNote(qsTr(""), qsTr(""), "blue")
+//                        var editPage = noteEditorPageComponent.createObject(pageStack, { "note": newNote });
+//                        pageStack.push(editPage)
+//                    }
+
+//                },
 
 //Rectangle {
 //    id: note1

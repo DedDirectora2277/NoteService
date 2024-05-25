@@ -55,17 +55,17 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="106"/>
+        <location filename="../qml/pages/MainPage.qml" line="111"/>
         <source>Фильтр заметок</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="193"/>
+        <location filename="../qml/pages/MainPage.qml" line="205"/>
         <source>Удалить</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="222"/>
+        <location filename="../qml/pages/MainPage.qml" line="234"/>
         <source>Добавить заметку</source>
         <translation type="unfinished"></translation>
     </message>
@@ -78,17 +78,17 @@
 <context>
     <name>NoteEditor</name>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="92"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="83"/>
         <source>Название заметки</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="125"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="116"/>
         <source>Здесь начинается ваша заметка</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="145"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="136"/>
         <source>Created: </source>
         <translation type="unfinished"></translation>
     </message>
