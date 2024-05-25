@@ -43,6 +43,12 @@ void NoteList::loadNotes() {
         note->setColor(QColor(query.value(3).toString()));
         note->setCreationDate(QDate::fromString(query.value(4).toString(), Qt::ISODate));
         note->setModificationDate(QDate::fromString(query.value(5).toString(), Qt::ISODate));
+
+        connect(note, &Note::titleChanged, this, [this, note]() { updateNote(note); });
+        connect(note, &Note::textChanged, this, [this, note]() { updateNote(note); });
+        connect(note, &Note::colorChanged, this, [this, note]() { updateNote(note); });
+        connect(note, &Note::modificationDateChanged, this, [this, note]() { updateNote(note); });
+
         m_notes.append(note);
     }
     applyFilter();
@@ -115,7 +121,9 @@ void NoteList::updateNote(Note *note)
         note->setModificationDate(QDateTime::currentDateTime().date());
         QModelIndex modelIndex = createIndex(index, 0);
         updateNoteInDatabase(note);
+
         emit dataChanged(modelIndex, modelIndex, {TitleRole, TextRole, ColorRole, ModificationDateRole});
+        applyFilter();
     }
 }
 

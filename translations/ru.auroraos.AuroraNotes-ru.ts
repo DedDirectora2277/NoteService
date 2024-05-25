@@ -40,19 +40,6 @@
     </message>
 </context>
 <context>
-    <name>ListElement</name>
-    <message>
-        <location filename="../qml/ListElement.qml" line="42"/>
-        <source>Created: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/ListElement.qml" line="46"/>
-        <source>Modified: </source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>MainPage</name>
     <message>
         <location filename="../qml/pages/MainPage.qml" line="81"/>
