@@ -60,17 +60,17 @@
 <context>
     <name>NoteEditor</name>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="77"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="88"/>
         <source>Название заметки</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="110"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="121"/>
         <source>Здесь начинается ваша заметка</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="130"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="141"/>
         <source>Created: </source>
         <translation type="unfinished"></translation>
     </message>

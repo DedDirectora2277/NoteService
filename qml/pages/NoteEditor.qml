@@ -10,6 +10,14 @@ Page {
 
     property Note note
 
+    backNavigation : false
+
+//    on: {
+//        if (note) {
+//            noteList.updateNote(note)
+//            console.log("exited")
+//        }
+//    }
 
     Column {
         id: mainColumn
@@ -28,6 +36,9 @@ Page {
                     icon.source: "image://theme/icon-m-back"
                     anchors.left: parent.left
                     onClicked: {
+                        if (note) {
+                            noteList.updateNote(note)
+                        }
                         pageStack.pop()
                     }
                 },
