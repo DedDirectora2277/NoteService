@@ -38,22 +38,6 @@ Page {
                     }
                 },
 
-//                IconButton {
-//                    id: aboutButton
-//                    objectName: "aboutButton"
-//                    icon.source: "image://theme/icon-m-about"
-
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    anchors.left: parent.left
-
-//                    onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
-//                },
-
-
-//                IconButton{
-//                    id: filterCancelButton
-//                },
-
 
                 Rectangle{
                     id: colorFilterIndicator

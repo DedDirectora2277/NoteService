@@ -56,12 +56,6 @@ Page {
                     }
                 },
                 IconButton {
-                    id: imageButton
-                    objectName: "insertImageButton"
-                    icon.source: "image://theme/icon-m-file-image"
-                    anchors.right: saveButton.left
-                },
-                IconButton {
                     id: saveButton
                     objectName: "saveButton"
                     icon.source: "image://theme/icon-m-save"
