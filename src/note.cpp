@@ -72,12 +72,12 @@ void Note::setCreationDate(const QDate &date)
     }
 }
 
-int Note::id() const
+QString Note::id() const
 {
     return m_id;
 }
 
-void Note::setId(int id)
+void Note::setId(QString id)
 {
     if (m_id != id) {
         m_id = id;

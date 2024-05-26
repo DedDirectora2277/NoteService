@@ -15,6 +15,7 @@ class Note : public QObject
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QDate modificationDate READ modificationDate WRITE setModificationDate NOTIFY modificationDateChanged)
     Q_PROPERTY(QDate creationDate READ creationDate WRITE setCreationDate NOTIFY creationDateChanged)
+    Q_PROPERTY(QString id READ id WRITE setId)
 
 public:
     explicit Note(QObject *parent = nullptr);
@@ -34,8 +35,8 @@ public:
     QDate creationDate() const;
     void setCreationDate(const QDate &creationDate);
 
-    int id() const;
-    void setId(int id);
+    QString id() const;
+    void setId(QString id);
 
 signals:
     void titleChanged();
@@ -50,7 +51,7 @@ private:
     QColor m_color;
     QDate m_creationDate;
     QDate m_modificationDate;
-    int m_id;
+    QString m_id;
 };
 
 #endif // NOTE_H

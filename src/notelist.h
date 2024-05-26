@@ -22,6 +22,7 @@ public:
         CreationDateRole,
         ModificationDateRole,
         NoteRole,
+        IdRole,
     };
 
     NoteList(QObject *parent = nullptr);
@@ -46,7 +47,7 @@ public:
 
     void loadNotes();
     void saveNoteToDatabase(Note *note);
-    void removeNoteFromDatabase(int id);
+    void removeNoteFromDatabase(QString id);
     void updateNoteInDatabase(Note *note);
     void createTxtFromNote(const QString &filePath, Note *note);
 

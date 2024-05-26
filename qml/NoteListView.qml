@@ -12,7 +12,7 @@ SilicaListView {
     delegate: ListItem {
         id: clickArea
         property bool isLongPress: false
-        property int pressDuration: 100
+        property int pressDuration: 300
         property bool contextMenuVisible: false
 
         Label {

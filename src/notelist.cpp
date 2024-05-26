@@ -5,6 +5,7 @@
 #include <QSqlRecord>
 #include <QDebug>
 #include <QStandardPaths>
+#include <QUuid>
 #include <QDir>
 
 NoteList::NoteList(QObject *parent)
@@ -28,7 +29,7 @@ NoteList::NoteList(QObject *parent)
         qWarning() << "Error: unable to open database" << db.lastError().text();
     } else {
         QSqlQuery query;
-        query.exec("CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, text TEXT, color TEXT, creation_date TEXT, modification_date TEXT)");
+        query.exec("CREATE TABLE IF NOT EXISTS notes (id TEXT PRIMARY KEY, title TEXT, text TEXT, color TEXT, creation_date TEXT, modification_date TEXT)");
         loadNotes();
     }
 }
@@ -37,7 +38,7 @@ void NoteList::loadNotes() {
     QSqlQuery query("SELECT id, title, text, color, creation_date, modification_date FROM notes");
     while (query.next()) {
         Note *note = new Note(this);
-        note->setId(query.value(0).toInt());
+        note->setId(query.value(0).toString());
         note->setTitle(query.value(1).toString());
         note->setText(query.value(2).toString());
         note->setColor(QColor(query.value(3).toString()));
@@ -52,6 +53,8 @@ void NoteList::loadNotes() {
 Note* NoteList::addNote(const QString &title, const QString &text, const QColor &color)
 {
     Note *note = new Note(this);
+    QString uuid = QUuid::createUuid().toString();
+    note->setId(uuid);
     note->setTitle(title);
     note->setText(text);
     note->setColor(color);
@@ -69,7 +72,8 @@ Note* NoteList::addNote(const QString &title, const QString &text, const QColor 
 
 void NoteList::saveNoteToDatabase(Note *note) {
     QSqlQuery query;
-    query.prepare("INSERT INTO notes (title, text, color, creation_date, modification_date) VALUES (?, ?, ?, ?, ?)");
+    query.prepare("INSERT INTO notes (id, title, text, color, creation_date, modification_date) VALUES (?, ?, ?, ?, ?, ?)");
+    query.addBindValue(note->id());
     query.addBindValue(note->title());
     query.addBindValue(note->text());
     query.addBindValue(note->color().name());
@@ -77,8 +81,6 @@ void NoteList::saveNoteToDatabase(Note *note) {
     query.addBindValue(note->modificationDate().toString(Qt::ISODate));
     if (!query.exec()) {
         qWarning() << "Error: failed to insert note" << query.lastError().text();
-    } else {
-        note->setId(query.lastInsertId().toInt());
     }
 }
 
@@ -95,7 +97,7 @@ void NoteList::removeNote(int index) {
     delete note;
 }
 
-void NoteList::removeNoteFromDatabase(int id) {
+void NoteList::removeNoteFromDatabase(QString id) {
     QSqlQuery query;
     query.prepare("DELETE FROM notes WHERE id = ?");
     query.addBindValue(id);
@@ -155,6 +157,8 @@ QVariant NoteList::data(const QModelIndex &index, int role) const
         return note->modificationDate();
     case NoteRole:
         return QVariant::fromValue(note);
+    case IdRole:
+        return note->id();
     default:
         return QVariant();
     }
@@ -169,6 +173,7 @@ QHash<int, QByteArray> NoteList::roleNames() const
     roles[CreationDateRole] = "creationDate";
     roles[ModificationDateRole] = "modificationDate";
     roles[NoteRole] = "note";
+    roles[IdRole] = "id";
     return roles;
 }
 

@@ -27,3 +27,4 @@ TRANSLATIONS += \
     translations/ru.auroraos.AuroraNotes-ru.ts \
 
 QT += sql
+QT += network

@@ -20,7 +20,7 @@ Page {
         }
     }
 
-
+    backNavigation: false
 
     Column {
         id: mainColumn
@@ -71,7 +71,7 @@ Page {
                 },
                 IconButton {
                     id: exportButton
-                    objectName: "saveButton"
+                    objectName: "exportButton"
                     icon.source: "image://theme/icon-m-document"
                     anchors.right: parent.right
                     onClicked: {
