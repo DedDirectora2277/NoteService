@@ -257,7 +257,7 @@ void NoteList::createTxtFromNote(const QString &filePath, Note *note)
     QTextStream out(&file);
 
     // Записываем заголовок
-    out << "Title: " << note->title() << "\n\n";
+    out << note->title() << "\n\n";
 
     // Записываем текст заметки
     out << note->text() << "\n";
@@ -290,7 +290,7 @@ void NoteList::importNoteFromTxt(const QString &filePath)
 {
     Note *note = parseNoteFromTxt(filePath);
     if (note) {
-        addNote(note->title(), note->text(), note->color());
+        addNote(note->title(), note->text(), Qt::transparent);
     } else {
         qWarning() << "Failed to import note from file:" << filePath;
     }

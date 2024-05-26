@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Sailfish.Pickers 1.0
 import Notes 1.0
 import "../"
 
@@ -29,13 +30,13 @@ Page {
 
                     icon.source: "image://theme/icon-m-clear"
 
-                    visible: false
+                    enabled: false
 
                     onClicked: {
                         filterTextField.text = ""
                         noteList.clearFilterColor()
                         colorFilterIndicator.color =  "transparent"
-                        filterClearButton.visible = false
+                        filterClearButton.enabled = false
                     }
                 },
 
@@ -62,7 +63,7 @@ Page {
                             dialog.accepted.connect(function() {
                                 colorFilterIndicator.color = dialog.color
                                 noteList.filterColor = dialog.color
-                                filterClearButton.visible = true
+                                filterClearButton.enabled = true
                             })
 
                         }
@@ -70,22 +71,34 @@ Page {
                 },
 
 
+                IconButton{
+                  id: importButton
+                  objectName: "importButton"
 
+                  anchors.right: colorFilterIndicator.left
+                  anchors.verticalCenter: parent.verticalCenter
+
+                  icon.source: "image://theme/icon-m-note"
+
+                  onClicked: {
+                        pageStack.push(documentPickerPage)
+                  }
+                },
 
                 TextField{
                     id: filterTextField
 
                     anchors.left: filterClearButton.right
                     anchors.bottom: parent.bottom
-                    width: parent.width/3*2
+                    anchors.right: importButton.left
 
                     placeholderText: qsTr("Фильтр заметок")
                     onTextChanged: {
                         noteList.filterText = text
                         if (filterTextField.text != ""){
-                            filterClearButton.visible = true
+                            filterClearButton.enabled = true
                         } else if(Qt.colorEqual(colorFilterIndicator.color, "transparent")){
-                            filterClearButton.visible = false
+                            filterClearButton.enabled = false
                         }
                     }
                 }
@@ -121,6 +134,15 @@ Page {
         id: noteEditorPageComponent
         NoteEditor {
             id: noteEditorPage
+        }
+    }
+    Component {
+        id: documentPickerPage
+        DocumentPickerPage {
+            title: "Выбрать документ"
+            onSelectedContentPropertiesChanged: {
+                noteList.importNoteFromTxt(selectedContentProperties.filePath)
+            }
         }
     }
     ColorPicker {
