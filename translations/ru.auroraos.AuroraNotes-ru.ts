@@ -40,6 +40,19 @@
     </message>
 </context>
 <context>
+    <name>ExportDialog</name>
+    <message>
+        <location filename="../qml/pages/ExportDialog.qml" line="46"/>
+        <source>Название файла</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/ExportDialog.qml" line="66"/>
+        <source>Файлы сохраняются в папке Документы</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
         <location filename="../qml/pages/MainPage.qml" line="82"/>
@@ -60,17 +73,17 @@
 <context>
     <name>NoteEditor</name>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="88"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="94"/>
         <source>Название заметки</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="121"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="127"/>
         <source>Здесь начинается ваша заметка</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/NoteEditor.qml" line="141"/>
+        <location filename="../qml/pages/NoteEditor.qml" line="147"/>
         <source>Created: </source>
         <translation type="unfinished"></translation>
     </message>

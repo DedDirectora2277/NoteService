@@ -226,3 +226,72 @@ void NoteList::applyFilter()
     endResetModel();
     emit dataChanged(index(0), index(m_filteredNotes.count() - 1));
 }
+
+void NoteList::exportNoteToTxt(Note *note, const QString &filePath)
+{
+    if (!note) {
+        qWarning() << "Note is null";
+        return;
+    }
+
+    if (filePath.isEmpty()) {
+        return;
+    }
+
+    QString file = filePath;
+    if (!file.endsWith(".txt", Qt::CaseInsensitive)) {
+        file += ".txt";
+    }
+
+    createTxtFromNote(file, note);
+}
+
+void NoteList::createTxtFromNote(const QString &filePath, Note *note)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file for writing:" << filePath;
+        return;
+    }
+
+    QTextStream out(&file);
+
+    // Записываем заголовок
+    out << "Title: " << note->title() << "\n\n";
+
+    // Записываем текст заметки
+    out << note->text() << "\n";
+
+    file.close();
+    qDebug() << "TXT file successfully created at" << filePath;
+}
+
+Note* NoteList::parseNoteFromTxt(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to open file for reading:" << filePath;
+        return nullptr;
+    }
+
+    QTextStream in(&file);
+    QString title = in.readLine().trimmed();
+    QString text = in.readAll().trimmed();
+
+    Note *note = new Note(this);
+    note->setTitle(title);
+    note->setText(text);
+
+    file.close();
+    return note;
+}
+
+void NoteList::importNoteFromTxt(const QString &filePath)
+{
+    Note *note = parseNoteFromTxt(filePath);
+    if (note) {
+        addNote(note->title(), note->text(), note->color());
+    } else {
+        qWarning() << "Failed to import note from file:" << filePath;
+    }
+}

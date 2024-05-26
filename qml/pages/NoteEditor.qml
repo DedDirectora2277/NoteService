@@ -10,14 +10,17 @@ Page {
 
     property Note note
 
-    backNavigation : false
+    Component{
+        id: exportDialogComponent
+        ExportDialog{
+            id: exportDialog
+            onFileNameEntered: {
+                noteList.exportNoteToTxt(note, filePath)
+            }
+        }
+    }
 
-//    on: {
-//        if (note) {
-//            noteList.updateNote(note)
-//            console.log("exited")
-//        }
-//    }
+
 
     Column {
         id: mainColumn
@@ -67,13 +70,16 @@ Page {
                     }
                 },
                 IconButton {
-                    id: saveButton
+                    id: exportButton
                     objectName: "saveButton"
-                    icon.source: "image://theme/icon-m-save"
+                    icon.source: "image://theme/icon-m-document"
                     anchors.right: parent.right
                     onClicked: {
-                        // Логика сохранения заметки
-                        pageStack.pop()
+                        if (note) {
+                            noteList.updateNote(note)
+                            var exportPage = exportDialogComponent.createObject(pageStack, { "note": note });
+                            pageStack.push(exportPage)
+                        }
                     }
                 }
             ]

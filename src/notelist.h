@@ -31,6 +31,8 @@ public:
     Q_INVOKABLE void removeNote(int index);
     Q_INVOKABLE void updateNote(Note* note);
     Q_INVOKABLE void clearFilterColor();
+    Q_INVOKABLE void exportNoteToTxt(Note *note, const QString &filePath);
+    Q_INVOKABLE void importNoteFromTxt(const QString &filePath);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -46,7 +48,9 @@ public:
     void saveNoteToDatabase(Note *note);
     void removeNoteFromDatabase(int id);
     void updateNoteInDatabase(Note *note);
+    void createTxtFromNote(const QString &filePath, Note *note);
 
+    Note* parseNoteFromTxt(const QString &filePath);
 
 
 signals:
