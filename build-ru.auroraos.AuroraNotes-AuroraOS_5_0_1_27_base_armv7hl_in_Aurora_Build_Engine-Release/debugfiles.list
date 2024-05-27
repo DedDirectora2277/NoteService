@@ -1,0 +1,4 @@
+%dir /usr/lib/debug
+%dir /usr/lib/debug/usr
+%dir /usr/lib/debug/usr/bin
+/usr/lib/debug/usr/bin/ru.auroraos.AuroraNotes-0.1-1.arm.debug

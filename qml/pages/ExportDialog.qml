@@ -4,10 +4,11 @@ import Notes 1.0
 
 Page {
     id: exportPage
+    allowedOrientations: Orientation.Portrait
+
 
     property string fileName: ""
     property Note note
-    allowedOrientations: Orientation.All
     signal fileNameEntered(string filePath);
 
     Column {

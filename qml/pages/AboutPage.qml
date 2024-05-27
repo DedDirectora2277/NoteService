@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 
 Page {
     objectName: "aboutPage"
-    allowedOrientations: Orientation.All
+    allowedOrientations: Orientation.Portrait
 
     SilicaFlickable {
         objectName: "flickable"

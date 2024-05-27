@@ -7,7 +7,7 @@ import "../"
 Page {
     id: mainPage
     objectName: "mainPage"
-    allowedOrientations: Orientation.All
+    allowedOrientations: Orientation.Portrait
 
 
 

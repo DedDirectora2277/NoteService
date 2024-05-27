@@ -6,7 +6,7 @@ import Notes 1.0
 Page {
     id: noteEditorPage
     objectName: "noteEditor"
-    allowedOrientations: Orientation.All
+    allowedOrientations: Orientation.Portrait
 
     property Note note
 
