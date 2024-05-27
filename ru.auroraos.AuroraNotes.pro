@@ -16,8 +16,6 @@ HEADERS += \
 
 DISTFILES += \
     qml/NoteListView.qml \
-    qml/pages/SignInPage.qml \
-    qml/pages/SignUpPage.qml \
     rpm/ru.auroraos.AuroraNotes.spec \
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
