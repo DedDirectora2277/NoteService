@@ -42,4 +42,4 @@
 в директориях RPMS содержатся rpm пакеты для установки приложения.
 Установки на эмулятор следует использовать build-ru.auroraos x86_64
 
-##Репозиторий для сервера заметок (пока не работает): **[aurora-notepad](https://gitlab.com/muxsin.shokirov/aurora-notepad)**
+## Репозиторий для сервера заметок (пока не работает): **[aurora-notepad](https://gitlab.com/muxsin.shokirov/aurora-notepad)**
