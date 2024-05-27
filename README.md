@@ -34,3 +34,12 @@
 ## Совместимость
 
 Проект совместим с актуальными версиями ОС Аврора.
+
+## В каталогах 
+**[build-ru.auroraos aarch64](build-ru.auroraos.AuroraNotes-AuroraOS_5_0_1_27_base_aarch64_in_Aurora_Build_Engine-Release)**,
+**[build-ru.auroraos armv7hl](build-ru.auroraos.AuroraNotes-AuroraOS_5_0_1_27_base_armv7hl_in_Aurora_Build_Engine-Release)**,
+**[build-ru.auroraos x86_64](build-ru.auroraos.AuroraNotes-AuroraOS_5_0_1_27_base_x86_64_in_Aurora_Build_Engine-Release)**
+в директориях RPMS содержатся rpm пакеты для установки приложения.
+Установки на эмулятор следует использовать build-ru.auroraos x86_64
+
+                
